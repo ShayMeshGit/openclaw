@@ -317,6 +317,7 @@ export type ChannelLogoutResult = {
 export type ChannelLoginWithQrStartResult = {
   qrDataUrl?: string;
   message: string;
+  code?: string;
 };
 
 export type ChannelLoginWithQrWaitResult = {
@@ -336,6 +337,12 @@ export type ChannelGatewayAdapter<ResolvedAccount = unknown> = {
   startAccount?: (ctx: ChannelGatewayContext<ResolvedAccount>) => Promise<unknown>;
   stopAccount?: (ctx: ChannelGatewayContext<ResolvedAccount>) => Promise<void>;
   resolveGatewayAuthBypassPaths?: (params: { cfg: OpenClawConfig }) => string[];
+  loginWithQrStartPreflight?: (params: {
+    accountId?: string;
+    force?: boolean;
+    timeoutMs?: number;
+    verbose?: boolean;
+  }) => Promise<ChannelLoginWithQrStartResult | null>;
   loginWithQrStart?: (params: {
     accountId?: string;
     force?: boolean;

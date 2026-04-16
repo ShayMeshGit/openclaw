@@ -58,12 +58,11 @@ export const webHandlers: GatewayRequestHandlers = {
         respondProviderUnavailable(respond);
         return;
       }
-      await context.stopChannel(provider.id, accountId);
       if (!provider.gateway?.loginWithQrStart) {
         respondProviderUnsupported(respond, provider.id);
         return;
       }
-      const result = await provider.gateway.loginWithQrStart({
+      const loginParams = {
         force: Boolean((params as { force?: boolean }).force),
         timeoutMs:
           typeof (params as { timeoutMs?: unknown }).timeoutMs === "number"
@@ -71,7 +70,14 @@ export const webHandlers: GatewayRequestHandlers = {
             : undefined,
         verbose: Boolean((params as { verbose?: boolean }).verbose),
         accountId,
-      });
+      };
+      const preflightResult = await provider.gateway.loginWithQrStartPreflight?.(loginParams);
+      if (preflightResult) {
+        respond(true, preflightResult, undefined);
+        return;
+      }
+      await context.stopChannel(provider.id, accountId);
+      const result = await provider.gateway.loginWithQrStart(loginParams);
       respond(true, result, undefined);
     } catch (err) {
       respond(false, undefined, errorShape(ErrorCodes.UNAVAILABLE, formatForLog(err)));
