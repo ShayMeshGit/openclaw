@@ -1,5 +1,4 @@
 import { resolveProviderModernModelRef } from "../plugins/provider-runtime.js";
-import { resolveOwningPluginIdsForProvider } from "../plugins/providers.js";
 import { normalizeLowercaseStringOrEmpty } from "../shared/string-coerce.js";
 import { normalizeProviderId } from "./provider-id.js";
 
@@ -31,30 +30,6 @@ const DEFAULT_HIGH_SIGNAL_LIVE_EXCLUDED_PROVIDERS = new Set(["codex", "codex-cli
 const HIGH_SIGNAL_LIVE_MODEL_PRIORITY_INDEX = new Map<string, number>(
   HIGH_SIGNAL_LIVE_MODEL_PRIORITY.map((key, index) => [key, index]),
 );
-
-function providersShareOwner(params: {
-  left: string;
-  right: string;
-  config?: object;
-  workspaceDir?: string;
-  env?: NodeJS.ProcessEnv;
-}): boolean {
-  const leftOwners =
-    resolveOwningPluginIdsForProvider({
-      provider: params.left,
-      config: params.config,
-      workspaceDir: params.workspaceDir,
-      env: params.env,
-    }) ?? [];
-  const rightOwners =
-    resolveOwningPluginIdsForProvider({
-      provider: params.right,
-      config: params.config,
-      workspaceDir: params.workspaceDir,
-      env: params.env,
-    }) ?? [];
-  return leftOwners.some((owner) => rightOwners.includes(owner));
-}
 
 function isHighSignalClaudeModelId(id: string): boolean {
   const normalized = id.replace(/[_.]/g, "-");
@@ -127,9 +102,6 @@ export function shouldExcludeProviderFromDefaultHighSignalLiveSweep(params: {
   provider?: string | null;
   useExplicitModels: boolean;
   providerFilter?: ReadonlySet<string> | null;
-  config?: object;
-  workspaceDir?: string;
-  env?: NodeJS.ProcessEnv;
 }): boolean {
   const provider = normalizeProviderId(params.provider ?? "");
   if (!provider || params.useExplicitModels) {
@@ -143,16 +115,7 @@ export function shouldExcludeProviderFromDefaultHighSignalLiveSweep(params: {
     if (requestedProvider === provider) {
       return false;
     }
-    if (
-      requestedProvider &&
-      providersShareOwner({
-        left: requestedProvider,
-        right: provider,
-        config: params.config,
-        workspaceDir: params.workspaceDir,
-        env: params.env,
-      })
-    ) {
+    if (requestedProvider && DEFAULT_HIGH_SIGNAL_LIVE_EXCLUDED_PROVIDERS.has(requestedProvider)) {
       return false;
     }
   }
