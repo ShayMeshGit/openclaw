@@ -15,6 +15,7 @@ CLI_DISABLE_MCP_CONFIG="${OPENCLAW_LIVE_CLI_BACKEND_DISABLE_MCP_CONFIG:-}"
 CLI_AUTH_MODE="${OPENCLAW_LIVE_CLI_BACKEND_AUTH:-auto}"
 TEMP_DIRS=()
 DOCKER_USER="${OPENCLAW_DOCKER_USER:-node}"
+DOCKER_HOME_MOUNT=()
 
 if [[ -z "$CLI_PROVIDER" || "$CLI_PROVIDER" == "$CLI_MODEL" ]]; then
   CLI_PROVIDER="$DEFAULT_PROVIDER"
@@ -84,6 +85,9 @@ mkdir -p "$CLI_TOOLS_DIR"
 mkdir -p "$CACHE_HOME_DIR"
 if [[ "${CI:-}" == "true" || "${GITHUB_ACTIONS:-}" == "true" ]]; then
   DOCKER_USER="$(id -u):$(id -g)"
+  DOCKER_HOME_DIR="$(mktemp -d "${RUNNER_TEMP:-/tmp}/openclaw-docker-home.XXXXXX")"
+  TEMP_DIRS+=("$DOCKER_HOME_DIR")
+  DOCKER_HOME_MOUNT=(-v "$DOCKER_HOME_DIR":/home/node)
 fi
 
 if [[ "$CLI_PROVIDER" == "claude-cli" && "$CLI_AUTH_MODE" == "subscription" ]]; then
@@ -390,6 +394,7 @@ docker run --rm -t \
   -e OPENCLAW_LIVE_CLI_BACKEND_MCP_PROBE="${OPENCLAW_LIVE_CLI_BACKEND_MCP_PROBE:-}" \
   -e OPENCLAW_LIVE_CLI_BACKEND_IMAGE_ARG="${OPENCLAW_LIVE_CLI_BACKEND_IMAGE_ARG:-}" \
   -e OPENCLAW_LIVE_CLI_BACKEND_IMAGE_MODE="${OPENCLAW_LIVE_CLI_BACKEND_IMAGE_MODE:-}" \
+  "${DOCKER_HOME_MOUNT[@]}" \
   -v "$CACHE_HOME_DIR":/home/node/.cache \
   -v "$ROOT_DIR":/src:ro \
   -v "$CONFIG_DIR":/home/node/.openclaw \

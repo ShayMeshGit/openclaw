@@ -11,6 +11,7 @@ PROFILE_FILE="${OPENCLAW_PROFILE_FILE:-$HOME/.profile}"
 ACP_AGENT_LIST_RAW="${OPENCLAW_LIVE_ACP_BIND_AGENTS:-${OPENCLAW_LIVE_ACP_BIND_AGENT:-claude,codex,gemini}}"
 TEMP_DIRS=()
 DOCKER_USER="${OPENCLAW_DOCKER_USER:-node}"
+DOCKER_HOME_MOUNT=()
 
 openclaw_live_acp_bind_resolve_auth_provider() {
   case "${1:-}" in
@@ -61,6 +62,9 @@ mkdir -p "$CLI_TOOLS_DIR"
 mkdir -p "$CACHE_HOME_DIR"
 if [[ "${CI:-}" == "true" || "${GITHUB_ACTIONS:-}" == "true" ]]; then
   DOCKER_USER="$(id -u):$(id -g)"
+  DOCKER_HOME_DIR="$(mktemp -d "${RUNNER_TEMP:-/tmp}/openclaw-docker-home.XXXXXX")"
+  TEMP_DIRS+=("$DOCKER_HOME_DIR")
+  DOCKER_HOME_MOUNT=(-v "$DOCKER_HOME_DIR":/home/node)
 fi
 
 PROFILE_MOUNT=()
@@ -258,6 +262,7 @@ for ACP_AGENT in "${ACP_AGENTS[@]}"; do
     -e OPENCLAW_LIVE_ACP_BIND=1 \
     -e OPENCLAW_LIVE_ACP_BIND_AGENT="$ACP_AGENT" \
     -e OPENCLAW_LIVE_ACP_BIND_AGENT_COMMAND="$AGENT_COMMAND" \
+    "${DOCKER_HOME_MOUNT[@]}" \
     -v "$CACHE_HOME_DIR":/home/node/.cache \
     -v "$ROOT_DIR":/src:ro \
     -v "$CONFIG_DIR":/home/node/.openclaw \

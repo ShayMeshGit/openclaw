@@ -20,6 +20,7 @@ openclaw_live_truthy() {
 }
 
 TEMP_DIRS=()
+DOCKER_HOME_MOUNT=()
 cleanup_temp_dirs() {
   if ((${#TEMP_DIRS[@]} > 0)); then
     rm -rf "${TEMP_DIRS[@]}"
@@ -47,6 +48,9 @@ fi
 mkdir -p "$CACHE_HOME_DIR"
 if [[ "${CI:-}" == "true" || "${GITHUB_ACTIONS:-}" == "true" ]]; then
   DOCKER_USER="$(id -u):$(id -g)"
+  DOCKER_HOME_DIR="$(mktemp -d "${RUNNER_TEMP:-/tmp}/openclaw-docker-home.XXXXXX")"
+  TEMP_DIRS+=("$DOCKER_HOME_DIR")
+  DOCKER_HOME_MOUNT=(-v "$DOCKER_HOME_DIR":/home/node)
 fi
 
 PROFILE_MOUNT=()
@@ -196,6 +200,7 @@ docker run --rm -t \
   -e OPENCLAW_LIVE_GATEWAY_MODELS="${OPENCLAW_LIVE_GATEWAY_MODELS:-}" \
   -e OPENCLAW_LIVE_GATEWAY_PROVIDERS="${OPENCLAW_LIVE_GATEWAY_PROVIDERS:-}" \
   -e OPENCLAW_LIVE_GATEWAY_MAX_MODELS="${OPENCLAW_LIVE_GATEWAY_MAX_MODELS:-}" \
+  "${DOCKER_HOME_MOUNT[@]}" \
   -v "$CACHE_HOME_DIR":/home/node/.cache \
   -v "$ROOT_DIR":/src:ro \
   -v "$CONFIG_DIR":/home/node/.openclaw \
