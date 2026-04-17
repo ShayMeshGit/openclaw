@@ -5,8 +5,6 @@ import {
   resolveManifestContractPluginIds,
 } from "../manifest-registry.js";
 import {
-  imageGenerationProviderContractRegistry,
-  mediaUnderstandingProviderContractRegistry,
   pluginRegistrationContractRegistry,
   providerContractLoadError,
   providerContractPluginIds,
@@ -79,7 +77,8 @@ describe("plugin contract registry", () => {
     },
     {
       name: "does not duplicate bundled media provider ids",
-      ids: () => mediaUnderstandingProviderContractRegistry.map((entry) => entry.provider.id),
+      ids: () =>
+        pluginRegistrationContractRegistry.flatMap((entry) => entry.mediaUnderstandingProviderIds),
     },
     {
       name: "does not duplicate bundled realtime transcription provider ids",
@@ -91,7 +90,8 @@ describe("plugin contract registry", () => {
     },
     {
       name: "does not duplicate bundled image-generation provider ids",
-      ids: () => imageGenerationProviderContractRegistry.map((entry) => entry.provider.id),
+      ids: () =>
+        pluginRegistrationContractRegistry.flatMap((entry) => entry.imageGenerationProviderIds),
     },
   ] as const)("$name", ({ ids }) => {
     expectUniqueIds(ids());
