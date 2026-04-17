@@ -180,6 +180,11 @@ describe("gateway cli backend live helpers", () => {
     expect(shouldRetryCliCronMcpProbeReply("   ")).toBe(true);
     expect(
       shouldRetryCliCronMcpProbeReply(
+        "The cron tool call was cancelled twice, so I couldn’t create `live-mcp-932c6b`. If you want, I can try again.",
+      ),
+    ).toBe(true);
+    expect(
+      shouldRetryCliCronMcpProbeReply(
         "The cron job was not created because the schedule payload was invalid.",
       ),
     ).toBe(false);

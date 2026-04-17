@@ -194,6 +194,9 @@ export function shouldRetryCliCronMcpProbeReply(text: string): boolean {
     normalized.includes("mcp call was canceled");
   const mentionsUserCancellation = normalized.includes("user cancelled mcp tool call");
   const mentionsCreateFailure =
+    normalized.includes("could not create ") ||
+    normalized.includes("couldn't create ") ||
+    normalized.includes("couldn’t create ") ||
     normalized.includes("could not create the job") ||
     normalized.includes("couldn't create the job") ||
     normalized.includes("couldn’t create the job") ||
@@ -202,6 +205,7 @@ export function shouldRetryCliCronMcpProbeReply(text: string): boolean {
     normalized.includes("couldn’t create job");
   const mentionsRetryRequest =
     normalized.includes("please retry") ||
+    normalized.includes("i can try again") ||
     normalized.includes("i'll retry") ||
     normalized.includes("i’ll retry") ||
     normalized.includes("send the same request again");
