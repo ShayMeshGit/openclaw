@@ -11,7 +11,7 @@ title: "Provider Directory"
 OpenClaw can use many LLM providers. Pick a provider, authenticate, then set the
 default model as `provider/model`.
 
-Looking for chat channel docs (WhatsApp/Telegram/Discord/Slack/Mattermost (plugin)/etc.)? See [Channels](/channels).
+Looking for chat channel docs (WhatsApp/Telegram/Discord/Slack/Mattermost (plugin)/etc.)? See [Channels](../channels).
 
 ## Quick start
 
@@ -26,66 +26,66 @@ Looking for chat channel docs (WhatsApp/Telegram/Discord/Slack/Mattermost (plugi
 
 ## Provider docs
 
-- [Alibaba Model Studio](/providers/alibaba)
-- [Amazon Bedrock](/providers/bedrock)
-- [Anthropic (API + Claude CLI)](/providers/anthropic)
-- [Arcee AI (Trinity models)](/providers/arcee)
-- [BytePlus (International)](/concepts/model-providers#byteplus-international)
-- [Chutes](/providers/chutes)
-- [ComfyUI](/providers/comfy)
-- [Cloudflare AI Gateway](/providers/cloudflare-ai-gateway)
-- [DeepSeek](/providers/deepseek)
-- [fal](/providers/fal)
-- [Fireworks](/providers/fireworks)
-- [GitHub Copilot](/providers/github-copilot)
-- [GLM models](/providers/glm)
-- [Google (Gemini)](/providers/google)
-- [Groq (LPU inference)](/providers/groq)
-- [Hugging Face (Inference)](/providers/huggingface)
-- [inferrs (local models)](/providers/inferrs)
-- [Kilocode](/providers/kilocode)
-- [LiteLLM (unified gateway)](/providers/litellm)
-- [LM Studio (local models)](/providers/lmstudio)
-- [MiniMax](/providers/minimax)
-- [Mistral](/providers/mistral)
-- [Moonshot AI (Kimi + Kimi Coding)](/providers/moonshot)
-- [NVIDIA](/providers/nvidia)
-- [Ollama (cloud + local models)](/providers/ollama)
-- [OpenAI (API + Codex)](/providers/openai)
-- [OpenCode](/providers/opencode)
-- [OpenCode Go](/providers/opencode-go)
-- [OpenRouter](/providers/openrouter)
-- [Perplexity (web search)](/providers/perplexity-provider)
-- [Qianfan](/providers/qianfan)
-- [Qwen Cloud](/providers/qwen)
-- [Runway](/providers/runway)
-- [SGLang (local models)](/providers/sglang)
-- [StepFun](/providers/stepfun)
-- [Synthetic](/providers/synthetic)
-- [Together AI](/providers/together)
-- [Venice (Venice AI, privacy-focused)](/providers/venice)
-- [Vercel AI Gateway](/providers/vercel-ai-gateway)
-- [Vydra](/providers/vydra)
-- [vLLM (local models)](/providers/vllm)
-- [Volcengine (Doubao)](/providers/volcengine)
-- [xAI](/providers/xai)
-- [Xiaomi](/providers/xiaomi)
-- [Z.AI](/providers/zai)
+- [Alibaba Model Studio](./alibaba)
+- [Amazon Bedrock](./bedrock)
+- [Anthropic (API + Claude CLI)](./anthropic)
+- [Arcee AI (Trinity models)](./arcee)
+- [BytePlus (International)](../concepts/model-providers#byteplus-international)
+- [Chutes](./chutes)
+- [ComfyUI](./comfy)
+- [Cloudflare AI Gateway](./cloudflare-ai-gateway)
+- [DeepSeek](./deepseek)
+- [fal](./fal)
+- [Fireworks](./fireworks)
+- [GitHub Copilot](./github-copilot)
+- [GLM models](./glm)
+- [Google (Gemini)](./google)
+- [Groq (LPU inference)](./groq)
+- [Hugging Face (Inference)](./huggingface)
+- [inferrs (local models)](./inferrs)
+- [Kilocode](./kilocode)
+- [LiteLLM (unified gateway)](./litellm)
+- [LM Studio (local models)](./lmstudio)
+- [MiniMax](./minimax)
+- [Mistral](./mistral)
+- [Moonshot AI (Kimi + Kimi Coding)](./moonshot)
+- [NVIDIA](./nvidia)
+- [Ollama (cloud + local models)](./ollama)
+- [OpenAI (API + Codex)](./openai)
+- [OpenCode](./opencode)
+- [OpenCode Go](./opencode-go)
+- [OpenRouter](./openrouter)
+- [Perplexity (web search)](./perplexity-provider)
+- [Qianfan](./qianfan)
+- [Qwen Cloud](./qwen)
+- [Runway](./runway)
+- [SGLang (local models)](./sglang)
+- [StepFun](./stepfun)
+- [Synthetic](./synthetic)
+- [Together AI](./together)
+- [Venice (Venice AI, privacy-focused)](./venice)
+- [Vercel AI Gateway](./vercel-ai-gateway)
+- [Vydra](./vydra)
+- [vLLM (local models)](./vllm)
+- [Volcengine (Doubao)](./volcengine)
+- [xAI](./xai)
+- [Xiaomi](./xiaomi)
+- [Z.AI](./zai)
 
 ## Shared overview pages
 
-- [Additional bundled variants](/providers/models#additional-bundled-provider-variants) - Anthropic Vertex, Copilot Proxy, and Gemini CLI OAuth
-- [Image Generation](/tools/image-generation) - Shared `image_generate` tool, provider selection, and failover
-- [Music Generation](/tools/music-generation) - Shared `music_generate` tool, provider selection, and failover
-- [Video Generation](/tools/video-generation) - Shared `video_generate` tool, provider selection, and failover
+- [Additional bundled variants](./models#additional-bundled-provider-variants) - Anthropic Vertex, Copilot Proxy, and Gemini CLI OAuth
+- [Image Generation](../tools/image-generation) - Shared `image_generate` tool, provider selection, and failover
+- [Music Generation](../tools/music-generation) - Shared `music_generate` tool, provider selection, and failover
+- [Video Generation](../tools/video-generation) - Shared `video_generate` tool, provider selection, and failover
 
 ## Transcription providers
 
-- [Deepgram (audio transcription)](/providers/deepgram)
+- [Deepgram (audio transcription)](./deepgram)
 
 ## Community tools
 
-- [Claude Max API Proxy](/providers/claude-max-api-proxy) - Community proxy for Claude subscription credentials (verify Anthropic policy/terms before use)
+- [Claude Max API Proxy](./claude-max-api-proxy) - Community proxy for Claude subscription credentials (verify Anthropic policy/terms before use)
 
 For the full provider catalog (xAI, Groq, Mistral, etc.) and advanced configuration,
-see [Model providers](/concepts/model-providers).
+see [Model providers](../concepts/model-providers).
