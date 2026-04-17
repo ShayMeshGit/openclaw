@@ -524,6 +524,7 @@ describeLive("gateway live (Codex harness)", () => {
             "`codex models` did not run in this environment.",
             "I couldn’t get a direct `codex models` CLI listing because the local sandbox blocked that command.",
             "I couldn’t list all installed/available Codex models from the local CLI because the sandboxed `codex` command failed to start in this environment.",
+            "Current model: `codex/",
             "Configured model from `~/.codex/config.toml`:",
             "Current OpenClaw session status reports the active model as:",
           ],
