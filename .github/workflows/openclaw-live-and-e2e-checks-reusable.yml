@@ -636,11 +636,12 @@ jobs:
               echo "OPENCLAW_LIVE_CODEX_HARNESS_AUTH=api-key" >> "$GITHUB_ENV"
               ;;
             live-acp-bind-docker)
-              if [[ -n "${GEMINI_API_KEY:-}" || -n "${GOOGLE_API_KEY:-}" || -n "${OPENCLAW_GEMINI_SETTINGS_JSON:-}" ]]; then
+              if [[ -n "${GEMINI_API_KEY:-}" || -n "${GOOGLE_API_KEY:-}" ]]; then
                 echo "OPENCLAW_LIVE_ACP_BIND_AGENTS=claude,codex,gemini" >> "$GITHUB_ENV"
               else
-                # Keep the full local default, but avoid a guaranteed CI failure
-                # when this lane is dispatched without any usable Gemini auth.
+                # The hydrated Gemini settings file only selects Gemini CLI auth
+                # mode. CI still needs a usable Gemini or Google API key before
+                # ACP bind can initialize a Gemini session.
                 echo "OPENCLAW_LIVE_ACP_BIND_AGENTS=claude,codex" >> "$GITHUB_ENV"
               fi
               ;;

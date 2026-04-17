@@ -195,6 +195,12 @@ export function shouldRetryCliCronMcpProbeReply(text: string): boolean {
   return mentionsCancellation && (mentionsMissingJob || mentionsUserCancellation);
 }
 
+function getCliBackendProbeThinking(
+  providerId: string,
+): "low" | undefined {
+  return normalizeLowercaseStringOrEmpty(providerId) === "codex-cli" ? "low" : undefined;
+}
+
 export async function connectTestGatewayClient(params: {
   url: string;
   token: string;
@@ -392,6 +398,7 @@ export async function verifyCliBackendImageProbe(params: {
   tempDir: string;
   bootstrapWorkspace: BootstrapWorkspaceContext | null;
 }): Promise<void> {
+  const thinking = getCliBackendProbeThinking(params.providerId);
   const imageBase64 = renderCatFacePngBase64();
   const runIdImage = randomUUID();
   const imageProbe = await params.client.request(
@@ -413,6 +420,7 @@ export async function verifyCliBackendImageProbe(params: {
         },
       ],
       deliver: false,
+      ...(thinking ? { thinking } : {}),
     },
     { expectFinal: true },
   );
@@ -431,6 +439,7 @@ export async function verifyCliCronMcpProbe(params: {
   env: NodeJS.ProcessEnv;
 }): Promise<void> {
   const cronProbe = createLiveCronProbeSpec();
+  const thinking = getCliBackendProbeThinking(params.providerId);
 
   let createdJob: CronListJob | undefined;
   let lastCronText = "";
@@ -449,6 +458,7 @@ export async function verifyCliCronMcpProbe(params: {
           exactReply: cronProbe.name,
         }),
         deliver: false,
+        ...(thinking ? { thinking } : {}),
       },
       { expectFinal: true },
     );
@@ -476,7 +486,7 @@ export async function verifyCliCronMcpProbe(params: {
         await sleep(CLI_CRON_MCP_PROBE_VERIFY_POLL_MS);
       }
     }
-    if (!createdJob && !retryableReply && attempt === CLI_CRON_MCP_PROBE_MAX_ATTEMPTS - 1) {
+    if (!createdJob && !retryableReply) {
       throw new Error(
         `cron cli verify could not find job ${cronProbe.name}: reply=${JSON.stringify(lastCronText)}`,
       );

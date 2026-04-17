@@ -157,6 +157,11 @@ describe("gateway cli backend live helpers", () => {
         "The tool call was cancelled before completion, so I can’t verify the cron job was created.",
       ),
     ).toBe(true);
+    expect(
+      shouldRetryCliCronMcpProbeReply(
+        "The cron job was not created because the schedule payload was invalid.",
+      ),
+    ).toBe(false);
     expect(shouldRetryCliCronMcpProbeReply("live-mcp-abc123")).toBe(false);
   });
 });
