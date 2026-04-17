@@ -179,7 +179,10 @@ function sleep(ms: number): Promise<void> {
 export function shouldRetryCliCronMcpProbeReply(text: string): boolean {
   const normalized = normalizeLowercaseStringOrEmpty(text);
   const mentionsCancellation =
-    normalized.includes("tool call was cancelled") || normalized.includes("tool call was canceled");
+    normalized.includes("tool call was cancelled") ||
+    normalized.includes("tool call was canceled") ||
+    normalized.includes("mcp call was cancelled") ||
+    normalized.includes("mcp call was canceled");
   const mentionsMissingJob =
     normalized.includes("job was not created") ||
     normalized.includes("job still was not created") ||

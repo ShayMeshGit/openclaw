@@ -521,6 +521,7 @@ describeLive("gateway live (Codex harness)", () => {
             "running as Codex on `codex/",
             "currently running on `codex/",
             "stdin is not a terminal",
+            "`codex models` did not run in this environment.",
             "Configured model from `~/.codex/config.toml`:",
             "Current OpenClaw session status reports the active model as:",
           ],
