@@ -624,6 +624,10 @@ jobs:
             live-cli-backend-docker)
               echo "OPENCLAW_LIVE_CLI_BACKEND_MODEL=codex-cli/gpt-5.4" >> "$GITHUB_ENV"
               echo "OPENCLAW_LIVE_CLI_BACKEND_AUTH=api-key" >> "$GITHUB_ENV"
+              # Keep Peter's local codex-cli image probe default unchanged, but
+              # skip it in CI until the API-key Docker path supports the same
+              # multimodal behavior there.
+              echo "OPENCLAW_LIVE_CLI_BACKEND_IMAGE_PROBE=0" >> "$GITHUB_ENV"
               ;;
             live-codex-harness-docker)
               # Keep CI on the API-key path for now. The staged Codex auth secret
