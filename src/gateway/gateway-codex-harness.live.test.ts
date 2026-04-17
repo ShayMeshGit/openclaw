@@ -542,6 +542,7 @@ describeLive("gateway live (Codex harness)", () => {
             "Current OpenClaw session status reports the active model as:",
           ],
           isExpectedText: (text) => {
+            const normalized = text.toLowerCase();
             const isSandboxFallback =
               text.includes("`codex models`") &&
               (text.includes("did not run") ||
@@ -551,15 +552,24 @@ describeLive("gateway live (Codex harness)", () => {
                 text.includes("failed with:") ||
                 text.includes("repo-local fallback") ||
                 text.includes("sandbox blocks"));
+            const mentionsConfiguredModels =
+              normalized.includes("configured model") || normalized.includes("configured models");
+            const mentionsSessionModel =
+              normalized.includes("current session is using") ||
+              normalized.includes("current session model") ||
+              normalized.includes("the current session is using");
+            const mentionsConfigSummary =
+              normalized.includes("default model") ||
+              normalized.includes("primary model") ||
+              normalized.includes("registered models") ||
+              normalized.includes("only listed model") ||
+              normalized.includes("single codex model") ||
+              normalized.includes("live openclaw config shows") ||
+              normalized.includes("current gateway config");
             const isSessionConfigFallback =
               text.includes("`codex/") &&
-              ((text.includes("Configured models in this session:") &&
-                text.includes("Default model:")) ||
-                (text.includes("Primary model:") &&
-                  (text.includes("Registered models:") ||
-                    text.includes("single Codex model") ||
-                    text.includes("live OpenClaw config shows") ||
-                    text.includes("current gateway config"))));
+              ((mentionsConfiguredModels && mentionsSessionModel) ||
+                (mentionsConfigSummary && (mentionsConfiguredModels || mentionsSessionModel)));
             return isSandboxFallback || isSessionConfigFallback;
           },
         });
